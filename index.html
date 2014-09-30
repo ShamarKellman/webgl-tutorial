@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>WebGL Tutorial Part 2</title>
+	<title>WebGL Tutorial Part 3</title>
 
 	<!-- Link to the Three.js javascript file -->
 	<script type="text/javascript" src="js/three.js"></script>
@@ -12,6 +12,59 @@
 <body>
 	<script>
 		//The main javascript goes here
+		(function(){
+			var renderer = null, //WebGL or 2D
+				scene = null, //scene object
+				camera = null; //camera object
+
+			function initWebGL() {
+				// call the setup functions
+				setupRenderer();
+				setupScene();
+				setupCamera();
+
+				//render the scene and the camera
+				renderer.render(scene, camera);
+			}
+
+			function setupRenderer() {
+				//creates a new WebGLRenderer
+				renderer = new THREE.WebGLRenderer();
+
+				//set the size of the canvas
+				renderer.setSize(window.innerWidth, window.innerHeight);
+
+				//where to add the canvas element
+				document.body.appendChild( renderer.domElement );
+			}
+
+			function setupScene() {
+				//initialize the scene
+			 	scene = new THREE.Scene();
+				
+				//add a cube for the proof its working
+				var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+				var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+				var cube = new THREE.Mesh( geometry, material );
+				scene.add( cube );
+			}
+
+			function setupCamera() {
+				//creates a new perspective camera
+			 	camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+
+			 	//move the camera towards the screen by 10 units
+				camera.position.z = 10;
+
+				// tells the camera where to look
+				camera.lookAt( scene.position );
+
+				//adds the camera to the scene
+				scene.add( camera );
+			}
+
+			initWebGL();//start drawing
+		})();
 	</script>
 
 </body>
