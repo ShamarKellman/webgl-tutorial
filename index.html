@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>WebGL Tutorial Part 4</title>
+	<title>WebGL Tutorial Part 5</title>
 
 	<!-- Link to the Three.js javascript file -->
 	<script type="text/javascript" src="js/three.js"></script>
@@ -41,8 +41,11 @@
 			function setupScene() {
 				//initialize the scene
 			 	scene = new THREE.Scene();
-                drawCircle(); //calls the draw circle function
-                drawPlane(); //calls the draw plane function
+			 	addLight();
+                
+                //drawBox();
+                //drawSphere();
+                drawCylinder();
 			}
 
 			function setupCamera() {
@@ -50,7 +53,7 @@
 			 	camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
 			 	//move the camera towards the screen by 10 units
-				camera.position.z = 10;
+			 	camera.position.set(4, 5, 10);
 
 				//tells the camera where to look
 				camera.lookAt( scene.position );
@@ -58,37 +61,40 @@
 				//adds the camera to the scene
 				scene.add( camera );
 			}
-            
-            //draw a basic 2D circle to the screen
-            function drawCircle() {
-                //creates the geometry
-                var circleGeometry = new THREE.CircleGeometry(5, 30);
-                
-                //creates the material
-                var material = new THREE.MeshBasicMaterial({wireframe: false, color: 0x0000ff});
-                
-                //add the material and the geometry to the mesh
-                var circle = new THREE.Mesh(circleGeometry, material);
-                
-                //add the mesh to scene
-                scene.add(circle);
-            }
-            
-            //draw a basic 2D plane to the screen
-            function drawPlane() {
-                //creates the geometry
-                var planeGeometry = new THREE.PlaneGeometry(3, 2);
-                
-                //creates the material
-                var material = new THREE.MeshBasicMaterial({wireframe: true, color: 0xffff00});
-                
-                //add the material and the geometry to the mesh
-                var plane = new THREE.Mesh(planeGeometry, material);
-                
-                //add the mesh to scene
-                scene.add(plane);
-            }
 
+			function addLight() {
+				var light = new THREE.PointLight( 0x404040, 4, 200 );
+				light.position.set( 10, 8, 8 );
+				scene.add( light );
+
+				var light = new THREE.PointLight( 0x404040, 2, 200 );
+				light.position.set( -8, 8, 8 );
+				scene.add( light );
+			}
+
+            function drawBox() {
+                var boxGeometry = new THREE.BoxGeometry(5, 5, 5);
+                var material = new THREE.MeshLambertMaterial({wireframe: false, color: 0xffff00});
+                var box = new THREE.Mesh(boxGeometry, material);
+                
+                scene.add(box);
+            }
+            
+            function drawSphere() {
+                var sphereGeometry = new THREE.SphereGeometry(3, 30, 30); 
+                var material = new THREE.MeshLambertMaterial({wireframe: false, color: 0xffff00});
+                var sphere = new THREE.Mesh(sphereGeometry, material);
+                
+                scene.add(sphere);
+            }
+            
+            function drawCylinder() {
+                var cylinderGeometry = new THREE.CylinderGeometry( 0, 2, 5, 30);
+                var material = new THREE.MeshLambertMaterial({wireframe: false, color: 0x0000ff});
+                var cylinder = new THREE.Mesh(cylinderGeometry, material);
+                scene.add(cylinder);
+            }
+            
 			initWebGL();//start drawing
 		})();
 	</script>
